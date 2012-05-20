@@ -1,0 +1,132 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Static Analysis Utilities 3.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ analysis-core ---
+[INFO] Deleting /Users/bobfoster/hudson/analysis-core-plugin/target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (enforce-maven) @ analysis-core ---
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.0:enforce (default) @ analysis-core ---
+[INFO] 
+[INFO] --- maven-localizer-plugin:1.10:generate (default) @ analysis-core ---
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.1:process (default) @ analysis-core ---
+[INFO] Setting property: classpath.resource.loader.class => 'org.codehaus.plexus.velocity.ContextClassLoaderResourceLoader'.
+[INFO] Setting property: velocimacro.messages.on => 'false'.
+[INFO] Setting property: resource.loader => 'classpath'.
+[INFO] Setting property: resource.manager.logwhenfound => 'false'.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.4.3:resources (default-resources) @ analysis-core ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 135 resources
+[INFO] skip non existing resourceDirectory /Users/bobfoster/hudson/analysis-core-plugin/src/main/resources-filtered
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ analysis-core ---
+[INFO] Compiling 105 source files to /Users/bobfoster/hudson/analysis-core-plugin/target/classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[39,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[40,18] cannot find symbol
+symbol  : class DataSetBuilder
+location: package hudson.util
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[6,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[95,12] cannot find symbol
+symbol  : class NumberOnlyBuildLabel
+location: class hudson.plugins.analysis.util.CategoryUrlBuilder
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[39,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[40,18] cannot find symbol
+symbol  : class DataSetBuilder
+location: package hudson.util
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[6,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[95,12] cannot find symbol
+symbol  : class NumberOnlyBuildLabel
+location: class hudson.plugins.analysis.util.CategoryUrlBuilder
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/BuildResultGraph.java:[223,12] method does not override or implement a method from a supertype
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/BuildResultGraph.java:[246,12] method does not override or implement a method from a supertype
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,8] cannot find symbol
+symbol  : class DataSetBuilder
+location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,31] cannot find symbol
+symbol  : class NumberOnlyBuildLabel
+location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,67] cannot find symbol
+symbol  : class DataSetBuilder
+location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,90] cannot find symbol
+symbol  : class NumberOnlyBuildLabel
+location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[258,58] cannot find symbol
+symbol  : class NumberOnlyBuildLabel
+location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[277,8] cannot find symbol
+symbol  : class DataSetBuilder
+location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[277,61] cannot find symbol
+symbol  : class DataSetBuilder
+location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[96,16] cannot find symbol
+symbol  : class NumberOnlyBuildLabel
+location: class hudson.plugins.analysis.util.CategoryUrlBuilder
+[INFO] 18 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 17.853s
+[INFO] Finished at: Fri May 18 14:13:11 PDT 2012
+[INFO] Final Memory: 25M/81M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:2.3.2:compile (default-compile) on project analysis-core: Compilation failure: Compilation failure:
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[39,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[40,18] cannot find symbol
+[ERROR] symbol  : class DataSetBuilder
+[ERROR] location: package hudson.util
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[6,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[95,12] cannot find symbol
+[ERROR] symbol  : class NumberOnlyBuildLabel
+[ERROR] location: class hudson.plugins.analysis.util.CategoryUrlBuilder
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[39,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[40,18] cannot find symbol
+[ERROR] symbol  : class DataSetBuilder
+[ERROR] location: package hudson.util
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[6,28] package hudson.util.ChartUtil does not exist
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[95,12] cannot find symbol
+[ERROR] symbol  : class NumberOnlyBuildLabel
+[ERROR] location: class hudson.plugins.analysis.util.CategoryUrlBuilder
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/BuildResultGraph.java:[223,12] method does not override or implement a method from a supertype
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/BuildResultGraph.java:[246,12] method does not override or implement a method from a supertype
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,8] cannot find symbol
+[ERROR] symbol  : class DataSetBuilder
+[ERROR] location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,31] cannot find symbol
+[ERROR] symbol  : class NumberOnlyBuildLabel
+[ERROR] location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,67] cannot find symbol
+[ERROR] symbol  : class DataSetBuilder
+[ERROR] location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[251,90] cannot find symbol
+[ERROR] symbol  : class NumberOnlyBuildLabel
+[ERROR] location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[258,58] cannot find symbol
+[ERROR] symbol  : class NumberOnlyBuildLabel
+[ERROR] location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[277,8] cannot find symbol
+[ERROR] symbol  : class DataSetBuilder
+[ERROR] location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/graph/CategoryBuildResultGraph.java:[277,61] cannot find symbol
+[ERROR] symbol  : class DataSetBuilder
+[ERROR] location: class hudson.plugins.analysis.graph.CategoryBuildResultGraph
+[ERROR] /Users/bobfoster/hudson/analysis-core-plugin/src/main/java/hudson/plugins/analysis/util/CategoryUrlBuilder.java:[96,16] cannot find symbol
+[ERROR] symbol  : class NumberOnlyBuildLabel
+[ERROR] location: class hudson.plugins.analysis.util.CategoryUrlBuilder
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
