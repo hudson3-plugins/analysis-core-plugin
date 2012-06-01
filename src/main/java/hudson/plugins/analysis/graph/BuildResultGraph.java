@@ -1,6 +1,7 @@
 package hudson.plugins.analysis.graph;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.Collection;
 
@@ -220,8 +221,13 @@ public abstract class BuildResultGraph {
      */
     public Graph getGraph(final long timestamp, final GraphConfiguration configuration, final String pluginName, final ResultAction<?> lastAction) {
         return new Graph(timestamp, configuration.getWidth(), configuration.getHeight()) {
+            // this is obsolete
             protected JFreeChart createGraph() {
                 return create(configuration, lastAction, pluginName);
+            }
+            @Override
+            public BufferedImage createImage(int width, int height) {
+              return createGraph().createBufferedImage(width, height);
             }
         };
     }
@@ -242,9 +248,14 @@ public abstract class BuildResultGraph {
      */
     public Graph getGraph(final long timestamp, final GraphConfiguration configuration, final String pluginName, final Collection<ResultAction<?>> actions) {
         return new Graph(timestamp, configuration.getWidth(), configuration.getHeight()) {
-            protected JFreeChart createGraph() {
+          // this is obsolete 
+          protected JFreeChart createGraph() {
                 return createAggregation(configuration, actions, pluginName);
             }
+          @Override
+          public BufferedImage createImage(int width, int height) {
+            return createGraph().createBufferedImage(width, height);
+          }
         };
     }
 
