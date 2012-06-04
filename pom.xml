@@ -9,12 +9,13 @@
     -->
     
     <parent>
-      <groupId>org.eclipse.hudson.plugins</groupId>
+      <groupId>org.hudsonci.plugins</groupId>
       <artifactId>analysis-pom</artifactId>
       <version>3.0.0-SNAPSHOT</version>
       <relativePath>../analysis-pom/pom.xml</relativePath>
     </parent>
 
+    <groupId>org.hudsonci.plugins</groupId>
     <artifactId>analysis-core</artifactId>
     <packaging>hpi</packaging>
     <name>Static Analysis Utilities</name>
