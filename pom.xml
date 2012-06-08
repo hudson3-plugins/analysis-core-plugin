@@ -11,7 +11,7 @@
     <parent>
       <groupId>org.hudsonci.plugins</groupId>
       <artifactId>analysis-pom</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
+      <version>3.0.0-M2-1</version>
       <relativePath>../analysis-pom/pom.xml</relativePath>
     </parent>
 
@@ -21,6 +21,10 @@
     <name>Static Analysis Utilities</name>
     <version>1.42-SNAPSHOT</version>
     <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
+
+    <properties>
+      <hudsonTags>misc</hudsonTags>
+    </properties>
 
     <url>http://wiki.hudson-ci.org/display/HUDSON/Static+Code+Analysis+Plug-ins</url>
   
@@ -36,9 +40,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/hudson-plugins/${project.artifactId}-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:hudson-plugins/${project.artifactId}-plugin.git</developerConnection>
-        <url>https://github.com/hudson-plugins/${project.artifactId}-plugin</url>
+        <connection>scm:git:git://github.com/hudson3-plugins/${project.artifactId}-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:hudson3-plugins/${project.artifactId}-plugin.git</developerConnection>
+        <url>https://github.com/hudson3-plugins/${project.artifactId}-plugin</url>
     </scm>
   
     <developers>
