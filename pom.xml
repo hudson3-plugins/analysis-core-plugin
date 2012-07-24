@@ -11,7 +11,7 @@
     <parent>
       <groupId>org.hudsonci.plugins</groupId>
       <artifactId>analysis-pom</artifactId>
-      <version>3.0.0-M2-1</version>
+      <version>3.0.0-SNAPSHOT</version>
       <relativePath>../analysis-pom/pom.xml</relativePath>
     </parent>
 
@@ -19,7 +19,7 @@
     <artifactId>analysis-core</artifactId>
     <packaging>hpi</packaging>
     <name>Static Analysis Utilities</name>
-    <version>1.43-SNAPSHOT</version>
+    <version>1.42-h-1-SNAPSHOT</version>
     <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
 
     <properties>
@@ -59,7 +59,12 @@
             <artifactId>java2html</artifactId>
             <version>5.0</version>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.hudsonci.plugins</groupId>
+            <artifactId>jfreechart-plugin</artifactId>
+            <version>1.4-SNAPSHOT</version>
+      </dependency>
+  </dependencies>
 
     <build>
         <plugins>
