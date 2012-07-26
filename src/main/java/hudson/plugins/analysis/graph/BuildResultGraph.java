@@ -1,7 +1,6 @@
 package hudson.plugins.analysis.graph;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.Collection;
 
@@ -23,11 +22,6 @@ import hudson.plugins.analysis.core.BuildResult;
 
 import hudson.util.ColorPalette;
 import hudson.util.Graph;
-import java.io.IOException;
-import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.ChartUtilities;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
 
 /**
  * Base class for build results graphs.
@@ -209,74 +203,6 @@ public abstract class BuildResultGraph {
 
         return chart;
     }
-    
-    public class MyGraph extends Graph {
-        private final GraphConfiguration configuration;
-        private final ResultAction<?> lastAction;
-        private final String pluginName;
-        private final long timestamp;
-        private final Collection<ResultAction<?>> actions;
-        protected JFreeChart createGraph() {
-            if (lastAction != null)
-              return create(configuration, lastAction, pluginName);
-            else
-              return createAggregation(configuration, actions, pluginName);
-        }
-        public MyGraph(long timestamp, int defaultW, int defaultH, final GraphConfiguration configuration, final String pluginName, final ResultAction<?> lastAction) {
-          super(timestamp, defaultW, defaultH);
-          this.configuration = configuration;
-          this.lastAction = lastAction;
-          this.pluginName = pluginName;
-          this.timestamp = timestamp;
-          this.actions = null;
-        }
-        public MyGraph(long timestamp, int defaultW, int defaultH, final GraphConfiguration configuration, final String pluginName, final Collection<ResultAction<?>> actions) {
-          super(timestamp, defaultW, defaultH);
-          this.configuration = configuration;
-          this.actions = actions;
-          this.pluginName = pluginName;
-          this.timestamp = timestamp;
-          this.lastAction = null;
-        }
-        @Override
-        public BufferedImage createImage(int width, int height) {
-          return createGraph().createBufferedImage(width, height);
-        }
-
-//            For 3.0.0 M4 it is simplified 
-//            public String createMap(String mapName, int width, int height){
-//                ChartRenderingInfo info = new ChartRenderingInfo();
-//                // Done to get the ChartRenderingIngo which contains ImageMap
-//                createGraph().createBufferedImage(width, height, info);
-//                return ChartUtilities.getImageMap(mapName, info);
-//            }
-
-        /**
-          * Renders a clickable map.
-          */
-        @Override
-        public void doMap(StaplerRequest req, StaplerResponse rsp) throws IOException {
-            if (req.checkIfModified(timestamp, rsp)) {
-                return;
-            }
-
-            String w = req.getParameter("width");
-            if (w == null) {
-                w = String.valueOf(300);
-            }
-            String h = req.getParameter("height");
-            if (h == null) {
-                h = String.valueOf(300);
-            }
-
-            ChartRenderingInfo info = new ChartRenderingInfo();
-            // Done to get the ChartRenderingIngo which contains ImageMap
-            createGraph().createBufferedImage(Integer.parseInt(w),Integer.parseInt(h),info);
-
-            rsp.setContentType("text/plain;charset=UTF-8");
-            rsp.getWriter().println(ChartUtilities.getImageMap("map", info));
-        }
-    }
 
     /**
      * Returns the new graph object that wraps the actual {@link JFreeChart}
@@ -293,7 +219,12 @@ public abstract class BuildResultGraph {
      * @return the graph to render
      */
     public Graph getGraph(final long timestamp, final GraphConfiguration configuration, final String pluginName, final ResultAction<?> lastAction) {
-        return new MyGraph(timestamp, configuration.getWidth(), configuration.getHeight(), configuration, pluginName, lastAction);
+        return new Graph(timestamp, configuration.getWidth(), configuration.getHeight()) {
+            @Override
+            protected JFreeChart createGraph() {
+                return create(configuration, lastAction, pluginName);
+            }
+        };
     }
 
     /**
@@ -311,7 +242,12 @@ public abstract class BuildResultGraph {
      * @return the graph to render
      */
     public Graph getGraph(final long timestamp, final GraphConfiguration configuration, final String pluginName, final Collection<ResultAction<?>> actions) {
-        return new MyGraph(timestamp, configuration.getWidth(), configuration.getHeight(), configuration, pluginName, actions);
+        return new Graph(timestamp, configuration.getWidth(), configuration.getHeight()) {
+            @Override
+            protected JFreeChart createGraph() {
+                return createAggregation(configuration, actions, pluginName);
+            }
+        };
     }
 
     /**
