@@ -19,8 +19,6 @@ import hudson.plugins.analysis.util.ToolTipBuilder;
 import hudson.plugins.analysis.util.ToolTipProvider;
 import hudson.plugins.analysis.util.model.Priority;
 
-import hudson.util.ColorPalette;
-
 /**
  * Builds a graph showing all warnings by priority.
  *
@@ -62,21 +60,7 @@ public class PriorityGraph extends CategoryBuildResultGraph {
     @SuppressWarnings("SIC")
     @Override
     protected CategoryItemRenderer createRenderer(final GraphConfiguration configuration, final String pluginName, final ToolTipProvider toolTipProvider) {
-        CategoryUrlBuilder url = new CategoryUrlBuilder(getRootUrl(), pluginName) {
-            /** {@inheritDoc} */
-            @Override
-            protected String getDetailUrl(final int row) {
-                if (row == 0) {
-                    return Priority.LOW.name();
-                }
-                else if (row == 1) {
-                    return Priority.NORMAL.name();
-                }
-                else {
-                    return Priority.HIGH.name();
-                }
-            }
-        };
+        CategoryUrlBuilder url = new UrlBuilder(getRootUrl(), pluginName);
         ToolTipBuilder toolTip = new ToolTipBuilder(toolTipProvider) {
             /** {@inheritDoc} */
             @Override
@@ -100,5 +84,29 @@ public class PriorityGraph extends CategoryBuildResultGraph {
         }
     }
     // CHECKSTYLE:ON
+
+    /**
+     * Provides URLs for the graph.
+     */
+    private static final class UrlBuilder extends CategoryUrlBuilder {
+        private static final long serialVersionUID = 3049511502830320036L;
+
+        protected UrlBuilder(final String rootUrl, final String pluginName) {
+            super(rootUrl, pluginName);
+        }
+
+        @Override
+        protected String getDetailUrl(final int row) {
+            if (row == 0) {
+                return Priority.LOW.name();
+            }
+            else if (row == 1) {
+                return Priority.NORMAL.name();
+            }
+            else {
+                return Priority.HIGH.name();
+            }
+        }
+    }
 }
 

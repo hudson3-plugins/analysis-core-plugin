@@ -134,7 +134,8 @@ public abstract class AbstractResultAction<T extends BuildResult> implements Sta
 
     /** {@inheritDoc} */
     public String getIconFileName() {
-        if (getResult().getNumberOfAnnotations() > 0) {
+        T currentResult = getResult();
+        if (currentResult != null && currentResult.getNumberOfAnnotations() > 0) {
             return getSmallImage();
         }
         return null;
@@ -270,7 +271,7 @@ public abstract class AbstractResultAction<T extends BuildResult> implements Sta
 
     /** Backward compatibility. @deprecated */
     @Deprecated
-    @java.lang.SuppressWarnings("unused")
+    @java.lang.SuppressWarnings("PMD")
     @SuppressWarnings("UuF")
     private transient HealthReportBuilder healthReportBuilder; // NOPMD
 }

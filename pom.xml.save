@@ -1,62 +1,84 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.jvnet.hudson.plugins</groupId>
-    <artifactId>analysis-pom</artifactId>
-    <version>1.36</version>
-    <relativePath>../analysis-pom/pom.xml</relativePath>
-  </parent>
+    <!-- Forked from Jenkins analysis-core-plugin 1.42-SNAPSHOT 
+    
+         Change groupId to org.eclipse.hudson.plugins.
+         Work around jfreechart-plugin incompatibility (code change).
+    -->
+    
+    <parent>
+      <groupId>org.hudsonci.plugins</groupId>
+      <artifactId>analysis-pom</artifactId>
+      <version>3.0.0-RC2-SNAPSHOT</version>
+      <relativePath>../analysis-pom/pom.xml</relativePath>
+    </parent>
 
-  <artifactId>analysis-core</artifactId>
-  <packaging>hpi</packaging>
-  <name>Static Analysis Utilities</name>
-  <version>1.42-SNAPSHOT</version>
-  <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
+    <groupId>org.hudsonci.plugins</groupId>
+    <artifactId>analysis-core</artifactId>
+    <packaging>hpi</packaging>
+    <name>Static Analysis Utilities</name>
+    <version>1.47-h-1-SNAPSHOT</version>
+    <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
 
-  <url>http://wiki.jenkins-ci.org/x/CwDgAQ</url>
+    <properties>
+      <hudsonTags>misc</hudsonTags>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>de.java2html</groupId>
-      <artifactId>java2html</artifactId>
-      <version>5.0</version>
-    </dependency>
+    <url>http://wiki.hudson-ci.org/display/HUDSON/Static+Code+Analysis+Plug-ins</url>
+  
+    <licenses>
+        <license>
+            <name>MIT license</name>
+            <comments>All source code is under the MIT license.</comments>
+        </license>
+        <license>
+            <name>BSD license</name>
+            <comments>All YUI source code is under the BSD license.</comments>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/hudson3-plugins/${project.artifactId}-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:hudson3-plugins/${project.artifactId}-plugin.git</developerConnection>
+        <url>https://github.com/hudson3-plugins/${project.artifactId}-plugin</url>
+    </scm>
+  
+    <developers>
+        <developer>
+            <name>Ulli Hafner</name>
+            <id>drulli</id>
+            <email>ullrich.hafner@gmail.com</email>
+        </developer>
+    </developers>
+  
+    <dependencies>
+        <dependency>
+            <groupId>de.java2html</groupId>
+            <artifactId>java2html</artifactId>
+            <version>5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hudsonci.plugins</groupId>
+            <artifactId>jfreechart-plugin</artifactId>
+            <version>1.4</version>
+      </dependency>
   </dependencies>
 
-  <scm>
-    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-  </scm>
-
-  <repositories>
-    <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>**/HealthAware*.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/HealthAware*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>  
   

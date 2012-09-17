@@ -190,7 +190,7 @@ public abstract class HealthAwareReporter<T extends BuildResult> extends MavenRe
 
 
     // CHECKSTYLE:OFF
-    @SuppressWarnings("PMD.ExcessiveParameterList")
+    @SuppressWarnings({"PMD.ExcessiveParameterList","javadoc"})
     @Deprecated
     public HealthAwareReporter(final String healthy, final String unHealthy, final String thresholdLimit, final boolean useDeltaValues,
             final String unstableTotalAll, final String unstableTotalHigh, final String unstableTotalNormal, final String unstableTotalLow,
@@ -251,7 +251,6 @@ public abstract class HealthAwareReporter<T extends BuildResult> extends MavenRe
      *
      * @return the object
      */
-    @SuppressWarnings("deprecation")
     @edu.umd.cs.findbugs.annotations.SuppressWarnings("Se")
     private Object readResolve() {
         if (thresholdLimit == null) {

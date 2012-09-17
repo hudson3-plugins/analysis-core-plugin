@@ -11,6 +11,7 @@ import java.util.Collection;
 import org.apache.commons.io.IOUtils;
 
 import hudson.plugins.analysis.util.ContextHashCode;
+import hudson.plugins.analysis.util.model.AbstractAnnotation;
 import hudson.plugins.analysis.util.model.FileAnnotation;
 
 /**
@@ -49,7 +50,7 @@ public abstract class AbstractAnnotationParser implements AnnotationParser {
         FileInputStream input = null;
         try {
             input = new FileInputStream(file);
-            return parse(input, moduleName);
+            return intern(parse(input, moduleName));
         }
         catch (FileNotFoundException exception) {
             throw new InvocationTargetException(exception);
@@ -57,6 +58,19 @@ public abstract class AbstractAnnotationParser implements AnnotationParser {
         finally {
             IOUtils.closeQuietly(input);
         }
+    }
+
+    /**
+     * Let {@link FileAnnotation}s share some of their internal data structure
+     * to reduce memory footprint.
+     *
+     * @param annotations
+     *            the annotations to compress
+     * @return The same object as passed in the 'annotations' parameter to let
+     *         this function used as a filter.
+     */
+    protected Collection<FileAnnotation> intern(final Collection<FileAnnotation> annotations) {
+        return AbstractAnnotation.intern(annotations);
     }
 
     /**

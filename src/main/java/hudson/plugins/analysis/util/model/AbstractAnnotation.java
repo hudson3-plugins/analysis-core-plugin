@@ -2,20 +2,23 @@ package hudson.plugins.analysis.util.model;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
+import com.google.common.collect.ImmutableList;
+
 import hudson.model.Item;
 import hudson.model.AbstractBuild;
 
+import hudson.plugins.analysis.core.AbstractAnnotationParser;
 import hudson.plugins.analysis.util.PackageDetectors;
+import hudson.plugins.analysis.util.TreeString;
+import hudson.plugins.analysis.util.TreeStringBuilder;
 
 /**
  *  A base class for annotations.
@@ -36,25 +39,29 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     private static long currentKey;
 
     /** The message of this annotation. */
-    private final String message;
+    private /*almost final*/ TreeString message;
     /** The priority of this annotation. */
     private Priority priority;
     /** Unique key of this annotation. */
     private final long key;
-    /** The ordered list of line ranges that show the origin of the annotation in the associated file. */
-    private final List<LineRange> lineRanges;
+    /**
+     * The ordered list of line ranges that show the origin of the annotation in
+     * the associated file. To save memory consumption, this can be
+     * {@link ImmutableList}, in which case updates requires a new copy.
+     */
+    private final LineRangeList lineRanges;
     /** Primary line number of this warning, i.e., the start line of the first line range. */
     private final int primaryLineNumber;
     /** The filename of the class that contains this annotation. */
-    private String fileName;
+    private TreeString fileName;
     /** The name of the maven or ant module that contains this annotation. */
-    private String moduleName;
+    private TreeString moduleName;
     /** The name of the package (or name space) that contains this annotation. */
-    private String packageName;
+    private TreeString packageName;
     /** Bug category. */
-    private final String category;
+    private /*almost final*/ String category;
     /** Bug type. */
-    private final String type;
+    private /*almost final*/ String type;
     /**
      * Context hash code of this annotation. This hash code is used to decide if
      * two annotations are equal even if the equals method returns <code>false</code>.
@@ -63,7 +70,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /** The origin of this warning. */
     private String origin;
     /** Relative path of this duplication. @since 1.10 */
-    private String pathName;
+    private TreeString pathName;
     /** Column start of primary line range of warning. @since 1.38 */
     private int primaryColumnStart;
     /** Column end of primary line range of warning. @since 1.38 */
@@ -85,13 +92,13 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      */
     @edu.umd.cs.findbugs.annotations.SuppressWarnings("ST")
     public AbstractAnnotation(final String message, final int start, final int end, final String category, final String type) {
-        this.message = StringUtils.strip(message);
+        this.message = TreeString.of(StringUtils.strip(message));
         this.category = StringUtils.defaultString(category);
         this.type = StringUtils.defaultString(type);
 
         key = currentKey++;
 
-        lineRanges = new ArrayList<LineRange>();
+        lineRanges = new LineRangeList();
         lineRanges.add(new LineRange(start, end));
         primaryLineNumber = start;
 
@@ -130,18 +137,90 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     public AbstractAnnotation(final AbstractAnnotation copy) {
         key = currentKey++;
 
-        message = copy.getMessage();
+        message = TreeString.of(copy.getMessage());
         priority = copy.getPriority();
         primaryLineNumber = copy.getPrimaryLineNumber();
-        lineRanges = new ArrayList<LineRange>(copy.getLineRanges());
+        lineRanges = new LineRangeList(copy.getLineRanges());
 
         contextHashCode = copy.getContextHashCode();
 
-        fileName = copy.getFileName();
+        fileName = TreeString.of(copy.getFileName());
         category = copy.getCategory();
         type = copy.getType();
-        moduleName = copy.getModuleName();
-        packageName = copy.getPackageName();
+        moduleName = TreeString.of(copy.getModuleName());
+        packageName = TreeString.of(copy.getPackageName());
+    }
+
+    /**
+     * Called after XStream de-serialization to improve the memory usage.
+     * Ideally we'd like this to be protected, so that the subtype can call this
+     * method, but some plugins that depends on this (such as findbugs) already
+     * define "private Object readResolve()", so defining it as protected will
+     * break those subtypes. So instead, we expose "superReadResolve" as the
+     * protected entry point for this method.
+     *
+     * @return this
+     */
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings("SE")
+    private Object readResolve() {
+        if (origin != null) {
+            origin = origin.intern();
+        }
+        if (category != null) {
+            category = category.intern();
+        }
+        if (type != null) {
+            type = type.intern();
+        }
+        return this;
+    }
+
+    /**
+     * Simply calls {@link #readResolve()}.
+     */
+    protected void superReadResolve() {
+        readResolve();
+    }
+
+    /**
+     * {@link AbstractAnnotationParser} can call this method to let
+     * {@link AbstractAnnotation}s to reduce their memory footprint by sharing
+     * what they can share with other {@link AbstractAnnotation}s.
+     *
+     * @param builder
+     *            caches previously used strings
+     * @since 1.43
+     */
+    public void intern(final TreeStringBuilder builder) {
+        lineRanges.trim();
+        message = builder.intern(message);
+        fileName = builder.intern(fileName);
+        moduleName = builder.intern(moduleName);
+        packageName = builder.intern(packageName);
+
+        readResolve(); // String.intern some of the data fields
+    }
+
+
+    /**
+     * Let {@link FileAnnotation}s share some of their internal data structure
+     * to reduce memory footprint.
+     *
+     * @param annotations
+     *            the annotations to compress
+     * @return The same object as passed in the 'annotations' parameter to let
+     *         this function used as a filter.
+     */
+    public static Collection<FileAnnotation> intern(final Collection<FileAnnotation> annotations) {
+        TreeStringBuilder stringPool = new TreeStringBuilder();
+        for (FileAnnotation annotation : annotations) {
+            if (annotation instanceof AbstractAnnotation) {
+                AbstractAnnotation aa = (AbstractAnnotation) annotation;
+                aa.intern(stringPool);
+            }
+        }
+        stringPool.dedup();
+        return annotations;
     }
 
     /**
@@ -163,7 +242,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
             return getPackageName() + "." + FilenameUtils.getBaseName(getFileName());
         }
         else {
-            if (StringUtils.isBlank(pathName)) {
+            if (pathName == null || pathName.isBlank()) {
                 return getFileName();
             }
             else {
@@ -174,7 +253,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
 
     /** {@inheritDoc} */
     public boolean hasPackageName() {
-        String actualPackageName = StringUtils.trim(packageName);
+        String actualPackageName = StringUtils.trim(TreeString.toString(packageName));
 
         return StringUtils.isNotBlank(actualPackageName) && !StringUtils.equals(actualPackageName, PackageDetectors.UNDEFINED_PACKAGE);
     }
@@ -188,15 +267,16 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     public void setPathName(final String workspacePath) {
         String normalized = workspacePath.replace('\\', '/');
 
-        pathName = StringUtils.removeStart(getFileName(), normalized);
-        pathName = StringUtils.remove(pathName, FilenameUtils.getName(getFileName()));
-        pathName = StringUtils.removeStart(pathName, SLASH);
-        pathName = StringUtils.removeEnd(pathName, SLASH);
+        String s = StringUtils.removeStart(getFileName(), normalized);
+        s = StringUtils.remove(s, FilenameUtils.getName(getFileName()));
+        s = StringUtils.removeStart(s, SLASH);
+        s = StringUtils.removeEnd(s, SLASH);
+        pathName = TreeString.of(s);
     }
 
     /** {@inheritDoc} */
     public String getPathName() {
-        return pathName;
+        return TreeString.toString(pathName);
     }
 
     /** {@inheritDoc} */
@@ -225,7 +305,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /** {@inheritDoc} */
     @Exported
     public String getMessage() {
-        return message;
+        return TreeString.toString(message);
     }
 
     /** {@inheritDoc} */
@@ -243,7 +323,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
     /** {@inheritDoc} */
     @Exported
     public final String getFileName() {
-        return fileName;
+        return TreeString.toString(fileName);
     }
 
     /** {@inheritDoc} */
@@ -272,12 +352,12 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      * @param fileName the value to set
      */
     public final void setFileName(final String fileName) {
-        this.fileName = StringUtils.strip(fileName).replace('\\', '/');
+        this.fileName = TreeString.of(StringUtils.strip(fileName).replace('\\', '/'));
     }
 
     /** {@inheritDoc} */
     public final String getModuleName() {
-        return StringUtils.defaultIfEmpty(moduleName, "Default Module");
+        return StringUtils.defaultIfEmpty(TreeString.toString(moduleName), "Default Module");
     }
 
     /**
@@ -286,12 +366,12 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      * @param moduleName the value to set
      */
     public final void setModuleName(final String moduleName) {
-        this.moduleName = moduleName;
+        this.moduleName = TreeString.of(moduleName);
     }
 
     /** {@inheritDoc} */
     public final String getPackageName() {
-        return StringUtils.defaultIfEmpty(packageName, DEFAULT_PACKAGE);
+        return StringUtils.defaultIfEmpty(TreeString.toString(packageName), DEFAULT_PACKAGE);
     }
 
     /**
@@ -300,7 +380,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      * @param packageName the value to set
      */
     public final void setPackageName(final String packageName) {
-        this.packageName = packageName;
+        this.packageName = TreeString.of(packageName);
     }
 
     /** {@inheritDoc} */
@@ -392,7 +472,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
                 return false;
             }
         }
-        else if (!fileName.equals(other.fileName)) {
+        else if (!fileName.toString().equals(other.fileName.toString())) {
             return false;
         }
         if (lineRanges == null) {
@@ -408,7 +488,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
                 return false;
             }
         }
-        else if (!message.equals(other.message)) {
+        else if (!message.toString().equals(other.message.toString())) {
             return false;
         }
         if (moduleName == null) {
@@ -416,7 +496,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
                 return false;
             }
         }
-        else if (!moduleName.equals(other.moduleName)) {
+        else if (!moduleName.toString().equals(other.moduleName.toString())) {
             return false;
         }
         if (packageName == null) {
@@ -424,7 +504,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
                 return false;
             }
         }
-        else if (!packageName.equals(other.packageName)) {
+        else if (!packageName.toString().equals(other.packageName.toString())) {
             return false;
         }
         if (primaryLineNumber != other.primaryLineNumber) {
@@ -461,7 +541,7 @@ public abstract class AbstractAnnotation implements FileAnnotation, Serializable
      * @return the short file name
      */
     public String getShortFileName() {
-        return FilenameUtils.getName(fileName);
+        return FilenameUtils.getName(TreeString.toString(fileName));
     }
 
     /**

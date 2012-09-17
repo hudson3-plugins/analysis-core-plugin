@@ -1,2 +1,5 @@
 target
 .DS_Store
+analysis-core.iws
+analysis-core.iml
+analysis-core.ipr

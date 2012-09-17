@@ -238,6 +238,7 @@ public abstract class BuildResult implements ModelObject, Serializable, Annotati
      * @param history
      *            the history of build results of the associated plug-in
      */
+    @SuppressWarnings("hiding")
     private void initialize(final BuildHistory history, final AbstractBuild<?, ?> build, final String defaultEncoding, // NOCHECKSTYLE
             final ParserResult result) {
         this.history = history;
@@ -835,6 +836,36 @@ public abstract class BuildResult implements ModelObject, Serializable, Annotati
     }
 
     /**
+     * Returns the number of warnings with high priority.
+     *
+     * @return the number of warnings with high priority
+     */
+    @Exported
+    public int getNumberOfHighPriorityWarnings() {
+        return highWarnings;
+    }
+
+    /**
+     * Returns the number of warnings with normal priority.
+     *
+     * @return the number of warnings with normal priority
+     */
+    @Exported
+    public int getNumberOfNormalPriorityWarnings() {
+        return normalWarnings;
+    }
+
+    /**
+     * Returns the number of warnings with low priority.
+     *
+     * @return the number of warnings with low priority
+     */
+    @Exported
+    public int getNumberOfLowPriorityWarnings() {
+        return lowWarnings;
+    }
+
+    /**
      * Returns the associated project of this result.
      *
      * @return the associated project of this result.
@@ -1026,9 +1057,11 @@ public abstract class BuildResult implements ModelObject, Serializable, Annotati
      *            the URL of the results
      */
     // CHECKSTYLE:OFF
+    @SuppressWarnings("hiding")
     public void evaluateStatus(final Thresholds thresholds, final boolean useDeltaValues, final PluginLogger logger, final String url) {
         evaluateStatus(thresholds, useDeltaValues, true, logger, url);
     }
+    // CHECKSTYLE:ON
 
     /**
      * Updates the build status, i.e. sets this plug-in result status field to
@@ -1049,6 +1082,7 @@ public abstract class BuildResult implements ModelObject, Serializable, Annotati
      *            the URL of the results
      */
     // CHECKSTYLE:OFF
+    @SuppressWarnings("hiding")
     public void evaluateStatus(final Thresholds thresholds, final boolean useDeltaValues, final boolean canComputeNew,
             final PluginLogger logger, final String url) {
     // CHECKSTYLE:ON
@@ -1079,6 +1113,7 @@ public abstract class BuildResult implements ModelObject, Serializable, Annotati
     /**
      * @deprecated use {@link #evaluateStatus(Thresholds, boolean, PluginLogger)}
      */
+    @SuppressWarnings("javadoc")
     @Deprecated
     public void setResult(final Result result) {
         saveResult(result);
@@ -1473,12 +1508,12 @@ public abstract class BuildResult implements ModelObject, Serializable, Annotati
     @java.lang.SuppressWarnings("unused")
     private transient Map<String, MavenModule> emptyModules; // NOPMD
     @Deprecated
-    @java.lang.SuppressWarnings("PMD")
+    @java.lang.SuppressWarnings("all")
     protected transient String low;
     @Deprecated
-    @java.lang.SuppressWarnings("PMD")
+    @java.lang.SuppressWarnings("all")
     protected transient String normal;
     @Deprecated
-    @java.lang.SuppressWarnings("PMD")
+    @java.lang.SuppressWarnings("all")
     protected transient String high;
 }

@@ -2,16 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Forked from Jenkins analysis-core-plugin 1.42-SNAPSHOT 
+    <!-- Forked from Jenkins analysis-core-plugin 1.47 
     
-         Change groupId to org.eclipse.hudson.plugins.
-         Work around jfreechart-plugin incompatibility (code change).
+         Change groupId to org.hudsonci.plugins.
     -->
     
     <parent>
       <groupId>org.hudsonci.plugins</groupId>
       <artifactId>analysis-pom</artifactId>
-      <version>3.0.0-M3</version>
+      <version>3.0.0-RC2</version>
       <relativePath>../analysis-pom/pom.xml</relativePath>
     </parent>
 
@@ -19,7 +18,7 @@
     <artifactId>analysis-core</artifactId>
     <packaging>hpi</packaging>
     <name>Static Analysis Utilities</name>
-    <version>1.42-h-2-SNAPSHOT</version>
+    <version>1.47-h-1-SNAPSHOT</version>
     <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
 
     <properties>

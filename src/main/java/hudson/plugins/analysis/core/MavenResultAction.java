@@ -69,6 +69,16 @@ public abstract class MavenResultAction<T extends BuildResult> implements Staple
     public abstract Class<? extends MavenResultAction<T>> getIndividualActionType();
 
     /**
+     * Returns the URL of the 24x24 image used in the build link.
+     *
+     * @return the URL of the image
+     * @since 1.42
+     */
+    public String getSmallImageName() {
+        return delegate.getSmallImageName();
+    }
+
+    /**
      * Creates a new build result that contains the aggregated results.
      *
      * @param existingResult
@@ -245,10 +255,20 @@ public abstract class MavenResultAction<T extends BuildResult> implements Staple
         return delegate.getResult();
     }
 
+    /**
+     * Returns the associated build of this action.
+     *
+     * @return the associated build of this action
+     */
     public AbstractBuild<?, ?> getOwner() {
         return delegate.getOwner();
     }
 
+    /**
+     * Returns the health of this action.
+     *
+     * @return the health of this action
+     */
     public final HealthReport getBuildHealth() {
         return delegate.getBuildHealth();
     }
@@ -265,6 +285,13 @@ public abstract class MavenResultAction<T extends BuildResult> implements Staple
         return delegate.getTarget();
     }
 
+    /**
+     * Returns the tooltip for the specified number of items.
+     *
+     * @param numberOfItems
+     *            the number of items to display the tooltip for
+     * @return the tooltip for the specified items
+     */
     public String getTooltip(final int numberOfItems) {
         return delegate.getTooltip(numberOfItems);
     }
