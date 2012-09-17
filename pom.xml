@@ -18,7 +18,7 @@
     <artifactId>analysis-core</artifactId>
     <packaging>hpi</packaging>
     <name>Static Analysis Utilities</name>
-    <version>1.47-h-1-SNAPSHOT</version>
+    <version>1.47-h-1</version>
     <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
 
     <properties>
