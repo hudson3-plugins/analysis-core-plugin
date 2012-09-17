@@ -39,9 +39,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/hudson3-plugins/${project.artifactId}-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:hudson3-plugins/${project.artifactId}-plugin.git</developerConnection>
-        <url>https://github.com/hudson3-plugins/${project.artifactId}-plugin</url>
+        <connection>scm:git:git://github.com/hudson3-plugins/analysis-core-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:hudson3-plugins/analysis-core-plugin.git</developerConnection>
+        <url>https://github.com/hudson3-plugins/analysis-core-plugin</url>
     </scm>
   
     <developers>
