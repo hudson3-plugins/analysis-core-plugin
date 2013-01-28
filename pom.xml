@@ -1,84 +1,66 @@
-
+<?xml version='1.0' encoding='UTF-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <!-- Forked from Jenkins analysis-core-plugin 1.47 
-    
-         Change groupId to org.hudsonci.plugins.
-    -->
-    
-    <parent>
-      <groupId>org.hudsonci.plugins</groupId>
-      <artifactId>analysis-pom</artifactId>
-      <version>3.0.0-RC2</version>
-      <relativePath>../analysis-pom/pom.xml</relativePath>
-    </parent>
-
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
     <groupId>org.hudsonci.plugins</groupId>
-    <artifactId>analysis-core</artifactId>
-    <packaging>hpi</packaging>
-    <name>Static Analysis Utilities</name>
-    <version>1.47-h-2-SNAPSHOT</version>
-    <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
-
-    <properties>
-      <hudsonTags>misc</hudsonTags>
-    </properties>
-
-    <url>http://wiki.hudson-ci.org/display/HUDSON/Static+Code+Analysis+Plug-ins</url>
-  
-    <licenses>
-        <license>
-            <name>MIT license</name>
-            <comments>All source code is under the MIT license.</comments>
-        </license>
-        <license>
-            <name>BSD license</name>
-            <comments>All YUI source code is under the BSD license.</comments>
-        </license>
-    </licenses>
-
-    <scm>
-        <connection>scm:git:git://github.com/hudson3-plugins/analysis-core-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:hudson3-plugins/analysis-core-plugin.git</developerConnection>
-        <url>https://github.com/hudson3-plugins/analysis-core-plugin</url>
-    </scm>
-  
-    <developers>
-        <developer>
-            <name>Ulli Hafner</name>
-            <id>drulli</id>
-            <email>ullrich.hafner@gmail.com</email>
-        </developer>
-    </developers>
-  
-    <dependencies>
-        <dependency>
-            <groupId>de.java2html</groupId>
-            <artifactId>java2html</artifactId>
-            <version>5.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hudsonci.plugins</groupId>
-            <artifactId>jfreechart-plugin</artifactId>
-            <version>1.4</version>
-      </dependency>
+    <artifactId>analysis-pom</artifactId>
+    <version>3.0.0</version><!-- Actually 1.40 forked -->
+    <relativePath />
+  </parent>
+  <artifactId>analysis-core</artifactId>
+  <packaging>hpi</packaging>
+  <name>Static Analysis Utilities</name>
+  <version>1.48-h-1-SNAPSHOT</version>
+  <description>This plug-in provides utilities for the static code analysis plug-ins.</description>
+  <url>http://wiki.hudson-ci.org/x/CwDgAQ</url>
+  <dependencies>
+    <dependency>
+      <groupId>de.java2html</groupId>
+      <artifactId>java2html</artifactId>
+      <version>5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hudsonci.plugins</groupId>
+      <artifactId>jfreechart-plugin</artifactId>
+      <version>1.4</version>
+    </dependency>
   </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/HealthAware*.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-</project>  
-  
-
+  <scm>
+    <connection>scm:git:git://github.com/hudson3-plugins/analysis-core.git</connection>
+    <developerConnection>scm:git:git@github.com:hudson3-plugins/analysis-core.git</developerConnection>
+    <url>https://github.com/hudson3-plugins/analysis-core</url>
+  </scm>
+  <repositories>
+    </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/HealthAware*.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <groupId>org.hudsonci.plugins</groupId>
+  <licenses>
+    <license>
+      <name>The MIT license</name>
+      <url>http://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Ulli Hafner</name>
+      <id>drulli</id>
+      <email>ullrich.hafner@gmail.com</email>
+    </developer>
+  </developers>
+  <properties>
+    <hudsonTags>misc</hudsonTags>
+  </properties>
+</project>

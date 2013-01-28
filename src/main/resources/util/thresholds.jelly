@@ -1,8 +1,8 @@
 <?jelly escape-by-default='true'?>
-<!-- 
-  Section header 
-  
-  <%@attribute name="id" required="true" %> 
+<!--
+  Section header
+
+  <%@attribute name="id" required="true" %>
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
@@ -23,7 +23,7 @@
       <tbody>
         <tr>
           <td style="vertical-align: middle;">
-            <img src="${rootURL}/images/16x16/yellow.png" alt="100%"
+            <img src="${rootURL}/images/16x16/yellow.gif" alt="100%"
               title="${%description.unstableTotal}" />
           </td>
           <td>
@@ -45,7 +45,7 @@
         </tr>
         <tr>
           <td style="vertical-align: middle;">
-            <img src="${rootURL}/images/16x16/red.png" alt="100%"
+            <img src="${rootURL}/images/16x16/red.gif" alt="100%"
               title="${%description.failedTotal}" />
           </td>
           <td>
@@ -85,7 +85,7 @@
             <tbody>
               <tr>
                 <td style="vertical-align: middle;">
-                  <img src="${rootURL}/images/16x16/yellow.png" alt="100%"
+                  <img src="${rootURL}/images/16x16/yellow.gif" alt="100%"
                     title="${%description.unstableNew}" />
                 </td>
                 <td>
@@ -107,7 +107,7 @@
               </tr>
               <tr>
                 <td style="vertical-align: middle;">
-                  <img src="${rootURL}/images/16x16/red.png" alt="100%"
+                  <img src="${rootURL}/images/16x16/red.gif" alt="100%"
                     title="${%description.failedNew}" />
                 </td>
                 <td>
@@ -133,6 +133,10 @@
         <f:entry title="${%Use delta for new warnings}"
           description="${%description.useDeltaValues}">
           <f:checkbox name="useDeltaValues" checked="${instance.useDeltaValues}" />
+        </f:entry>
+        <f:entry title="${%Only use stable builds as reference}"
+          description="${%description.onlyUseStableBuildsAsReference}">
+          <f:checkbox name="useStableBuildAsReference" checked="${instance.useStableBuildAsReference}" />
         </f:entry>
       </f:optionalBlock>
     </table>

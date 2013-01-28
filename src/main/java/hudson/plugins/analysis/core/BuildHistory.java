@@ -26,6 +26,8 @@ public class BuildHistory {
     private final AbstractBuild<?, ?> baseline;
     /** Type of the action that contains the build results. */
     private final Class<? extends ResultAction<? extends BuildResult>> type;
+    /** Determines whether only stable builds should be used as reference builds or not. */
+    private final boolean useStableBuildAsReference;
 
     /**
      * Creates a new instance of {@link BuildHistory}.
@@ -34,10 +36,26 @@ public class BuildHistory {
      *            the build to start the history from
      * @param type
      *            type of the action that contains the build results
+     * @param useStableBuildAsReference
+     *            determines whether only stable builds should be used as
+     *            reference builds or not
+     * @since 1.47
      */
-    public BuildHistory(final AbstractBuild<?, ?> baseline, final Class<? extends ResultAction<? extends BuildResult>> type) {
+    public BuildHistory(final AbstractBuild<?, ?> baseline, final Class<? extends ResultAction<? extends BuildResult>> type,
+            final boolean useStableBuildAsReference) {
         this.baseline = baseline;
         this.type = type;
+        this.useStableBuildAsReference = useStableBuildAsReference;
+    }
+
+    /**
+     * Determines whether only stable builds should be used as reference builds
+     * or not.
+     *
+     * @return <code>true</code> if only stable builds should be used
+     */
+    public boolean useOnlyStableBuildsAsReference() {
+        return useStableBuildAsReference;
     }
 
     /**
@@ -77,7 +95,7 @@ public class BuildHistory {
      *         such build exists
      */
     private ResultAction<? extends BuildResult> getReferenceAction() {
-        ResultAction<? extends BuildResult> action = getAction(true);
+        ResultAction<? extends BuildResult> action = getAction(true, useStableBuildAsReference);
         if (action == null) {
             return getPreviousAction(); // fallback, use action of previous build regardless of result
         }
@@ -87,8 +105,12 @@ public class BuildHistory {
     }
 
     private ResultAction<? extends BuildResult> getAction(final boolean isStatusRelevant) {
+        return getAction(isStatusRelevant, false);
+    }
+
+    private ResultAction<? extends BuildResult> getAction(final boolean isStatusRelevant, final boolean mustBeStable) {
         for (AbstractBuild<?, ?> build = baseline.getPreviousBuild(); build != null; build = build.getPreviousBuild()) {
-            if (hasValidResult(build)) {
+            if (hasValidResult(build, mustBeStable)) {
                 ResultAction<? extends BuildResult> action = getResultAction(build);
                 if (action != null && (action.isSuccessful() || !isStatusRelevant)) {
                     return action;
@@ -143,9 +165,18 @@ public class BuildHistory {
     }
 
     private boolean hasValidResult(final AbstractBuild<?, ?> build) {
+        return hasValidResult(build, false);
+    }
+    private boolean hasValidResult(final AbstractBuild<?, ?> build, final boolean mustBeStable) {
         Result result = build.getResult();
 
-        return result != null && build.getResult().isBetterThan(Result.FAILURE);
+        if (result == null) {
+            return false;
+        }
+        if (mustBeStable) {
+            return result == Result.SUCCESS;
+        }
+        return build.getResult().isBetterThan(Result.FAILURE);
     }
 
     /**
@@ -250,6 +281,20 @@ public class BuildHistory {
      */
     public AbstractHealthDescriptor getHealthDescriptor() {
         return getBaseline().getHealthDescriptor();
+    }
+
+    /**
+     * Creates a new instance of {@link BuildHistory}.
+     *
+     * @param baseline
+     *            the build to start the history from
+     * @param type
+     *            type of the action that contains the build results
+     * @deprecated use {@link #BuildHistory(AbstractBuild, Class, boolean)}
+     */
+    @Deprecated
+    public BuildHistory(final AbstractBuild<?, ?> baseline, final Class<? extends ResultAction<? extends BuildResult>> type) {
+        this(baseline, type, false);
     }
 }
 
