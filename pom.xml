@@ -30,8 +30,6 @@
     <developerConnection>scm:git:git@github.com:hudson3-plugins/analysis-core.git</developerConnection>
     <url>https://github.com/hudson3-plugins/analysis-core</url>
   </scm>
-  <repositories>
-    </repositories>
   <build>
     <plugins>
       <plugin>
