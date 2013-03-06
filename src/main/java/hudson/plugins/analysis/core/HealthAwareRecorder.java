@@ -19,6 +19,7 @@ import hudson.model.Result;
 import hudson.model.AbstractBuild;
 import hudson.model.Project;
 
+import hudson.plugins.analysis.util.EncodingValidator;
 import hudson.plugins.analysis.util.PluginLogger;
 import hudson.plugins.analysis.util.model.AbstractAnnotation;
 import hudson.plugins.analysis.util.model.AnnotationContainer;
@@ -51,6 +52,7 @@ import hudson.tasks.Maven;
 // CHECKSTYLE:COUPLING-OFF
 @SuppressWarnings("PMD.TooManyFields")
 public abstract class HealthAwareRecorder extends Recorder implements HealthDescriptor, MatrixAggregatable {
+    private static final long serialVersionUID = 8892994325541840827L;
     private static final String SLASH = "/";
 
     /** Default threshold priority limit. */
@@ -450,7 +452,7 @@ public abstract class HealthAwareRecorder extends Recorder implements HealthDesc
 
     private void print(final FileOutputStream outputStream, final String message,
             final Object... arguments) throws IOException {
-        IOUtils.write(String.format(message, arguments), outputStream, getDefaultEncoding());
+        IOUtils.write(String.format(message, arguments), outputStream, EncodingValidator.getEncoding(getDefaultEncoding()));
     }
 
     /**

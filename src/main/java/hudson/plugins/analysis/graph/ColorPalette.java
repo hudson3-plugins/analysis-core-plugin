@@ -5,7 +5,7 @@ import java.awt.Color;
 import com.google.common.collect.ImmutableList;
 
 /**
- * Replacement for Jenkins {@link hudson.util.ColorPalette} in order to get good
+ * Replacement for Hudson {@link hudson.util.ColorPalette} in order to get good
  * looking graphs even if the green balls plug-in is installed.
  *
  * @author Ulli Hafner
