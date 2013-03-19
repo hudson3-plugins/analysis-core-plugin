@@ -56,7 +56,7 @@
     </plugins>
   </build>
 
-<licenses>
+  <licenses>
     <license>
       <name>The MIT license</name>
       <url>http://opensource.org/licenses/MIT</url>
@@ -65,12 +65,9 @@
   </licenses>
   <developers>
     <developer>
-      <id>bobfoster</id>
-      <name>Bob Foster</name>
-      <email>bobfoster@gmail.com</email>
-      <roles>
-        <role>Maintainer</role>
-      </roles>
+      <name>Ulli Hafner</name>
+      <id>drulli</id>
+      <email>ullrich.hafner@gmail.com</email>
     </developer>
   </developers>
   <properties>
